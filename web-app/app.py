@@ -30,7 +30,7 @@ def data(page):
     return food_recipe_df.iloc[page*10:(page*10) + 10].values.tolist()
 
 if __name__ == '__main__':
-    food_recipe_df = pd.read_csv('./Food Recipes Dataset/RAW_recipes.csv')
+    food_recipe_df = pd.read_csv('RAW_recipes.csv')
     food_recipe_df = food_recipe_df.where(pd.notnull(food_recipe_df), None)
     increment_amount = 10
     page = 0
