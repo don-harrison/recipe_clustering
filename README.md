@@ -1,2 +1,15 @@
-run app.py and go to localhost:5000 to view web app for exploring the dataset. Can search for words greater than 5 characters in length. not very sofisticated rn just filtering dataframe and returning results. copy and paste large characters in it to prevent researching after every letter.
-can run recipe_clustering.ipynb notebook to generate a list of clustered items. 15 clusters, 50 recipes each. 
+## Recipe Explorer Web App
+
+### How to Run  
+1. Run `app.py`.  
+2. Open your browser and go to `http://localhost:5000` to access the web app.  
+
+### Features  
+- Search for words with more than 5 characters.  
+- Basic filtering of the dataset (not highly sophisticated yet).  
+- Paste large chunks of text to avoid re-searching after every letter.  
+
+### Clustering  
+To generate clustered recipe groups:  
+- Run the `recipe_clustering.ipynb` notebook.  
+- It creates **15 clusters**, each containing **50 recipes**.  
