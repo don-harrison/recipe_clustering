@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Large Database Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .search-container {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .search-container input {
+            width: 200px;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Large Database Display</h1>
+    
+    <div class="search-container">
+        <input type="text" id="search5" onkeyup="searchTable(5)" placeholder="Search for recipe...">
+        <input type="text" id="search8" onkeyup="searchTable(8)" placeholder="Search for ingredient...">
+        <input type="text" id="search20" onkeyup="searchTable(10)" placeholder="Search for instruction...">
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Category</th>
+                <th>Instructions</th>
+                <th>Ingredients</th>
+            </tr>
+        </thead>
+        <tbody id="data-table"></tbody>
+    </table>
+
+    <!-- <button onclick="loadData()">Load More</button> -->
+
+    <script>
+        let page = 1;
+        const perPage = 50;
+        let search_results = []
+        
+        function searchTable(columnIndex) {
+            const input = document.querySelector(`#search${columnIndex}`).value;
+            console.log(input)
+            if(input.length > 5) {
+                const filter = input.toLowerCase();
+                console.log('/search/' + columnIndex + '/' + input)
+
+                fetch(`/search/${columnIndex}/${input}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Get the table and its tbody
+                    const tbody = document.getElementById("data-table");
+
+                    // Clear the current contents of the tbody
+                    tbody.innerHTML = '';
+
+                    // Loop through the data and create new rows
+                    data.forEach(row => {
+                        console.log(row)
+
+                        const tr = document.createElement("tr");
+
+                        // Add data to the row (adjust the indices based on your data structure)
+                        tr.innerHTML = `<td>${row[0]}</td><td>${row[5]}</td><td>${row[8]}</td><td>${row[10]}</td>`;
+
+                        // Append the new row to the tbody
+                        tbody.appendChild(tr);
+                    });
+                });
+            }
+            
+        }
+
+        function loadData() {
+            fetch(`/data/${page}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const table = document.getElementById("data-table");
+                data.forEach(row => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `<td>${row[0]}</td><td>${row[5]}</td><td>${row[8]}</td><td>${row[10]}</td>`;
+                    table.appendChild(tr);
+                });
+                page++;
+            });
+        }
+
+        loadData();  // Automatically load the first page on load
+    </script>
+
+</body>
+</html>
